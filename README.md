@@ -1,6 +1,9 @@
-# rails_encoded_mail_to
+# rails_encoded_mail_to 
+[![Build Status](https://secure.travis-ci.org/reednj77/rails_encoded_mail_to.png)](http://travis-ci.org/reednj77/rails_encoded_mail_to)
 
-Deprecated support for email address obfuscation within the mail_to helper method.  Restores the options `encode`, `replace_at`,  and `replace_dot` that were removed from Rails in version 4.0.  
+Deprecated support for email address obfuscation within the **mail_to** helper method.  Restores the options `:encode`, `:replace_at`,  and `:replace_dot`, which were removed from Rails in version 4.0.  
+
+Any call to **mail_to** that _doesn't_ include any of these options will be passed through to the core **mail_to** helper (in [ActionView::Helpers::UrlHelper](https://github.com/rails/rails/blob/master/actionpack/lib/action_view/helpers/url_helper.rb)).
 
 ## Installation
 
@@ -20,7 +23,7 @@ Or install it yourself as:
 
 Use the `mail_to` helper method just as you did prior to Rails 4.0.
 
-#### Restored options:
+#### Restored Options
 
  * `:encode` - This key will accept the strings "javascript" or "hex".
    Passing "javascript" will dynamically create and encode the mailto link then
