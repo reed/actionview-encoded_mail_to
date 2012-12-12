@@ -1,6 +1,6 @@
-# RailsEncodedMailTo
+# rails_encoded_mail_to
 
-Deprecated support for email address obfuscation within the mail_to helper method.  The options `encode`, `replace_at`, `replace_dot` were removed from Rails in version 4.0.  
+Deprecated support for email address obfuscation within the mail_to helper method.  Restores the options `encode`, `replace_at`,  and `replace_dot` that were removed from Rails in version 4.0.  
 
 ## Installation
 
