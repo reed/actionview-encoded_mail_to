@@ -1,5 +1,5 @@
 # actionview-encoded_mail_to 
-[![Build Status](https://secure.travis-ci.org/reednj77/rails_encoded_mail_to.png)](http://travis-ci.org/reednj77/rails_encoded_mail_to)
+[![Build Status](https://secure.travis-ci.org/reednj77/actionview-encoded_mail_to.png)](http://travis-ci.org/reednj77/actionview-encoded_mail_to)
 
 Deprecated support for email address obfuscation within the **mail_to** helper method.  Restores the options `:encode`, `:replace_at`,  and `:replace_dot`, which were removed from Rails in version 4.0.  
 
