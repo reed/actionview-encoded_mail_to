@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-module RailsEncodedMailTo
+module EncodedMailTo
   module ::ActionView
     module Helpers
       module UrlHelper

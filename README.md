@@ -1,4 +1,4 @@
-# rails_encoded_mail_to 
+# actionview-encoded_mail_to 
 [![Build Status](https://secure.travis-ci.org/reednj77/rails_encoded_mail_to.png)](http://travis-ci.org/reednj77/rails_encoded_mail_to)
 
 Deprecated support for email address obfuscation within the **mail_to** helper method.  Restores the options `:encode`, `:replace_at`,  and `:replace_dot`, which were removed from Rails in version 4.0.  
@@ -9,7 +9,7 @@ Any call to **mail_to** that _doesn't_ include any of these options will be pass
 
 Add this line to your application's Gemfile:
 
-    gem 'rails_encoded_mail_to'
+    gem 'actionview-encoded_mail_to'
 
 And then execute:
 
@@ -17,7 +17,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install rails_encoded_mail_to
+    $ gem install actionview-encoded_mail_to
 
 ## Usage
 
