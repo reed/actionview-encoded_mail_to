@@ -1,4 +1,4 @@
-Copyright (c) 2012 Nick Reed
+Copyright (c) 2013 Nick Reed
 
 MIT License
 
