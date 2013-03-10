@@ -80,8 +80,8 @@ module EncodedMailTo
               html_options.merge("href" => "mailto:#{email_address}#{extras}".html_safe).each_pair do |name,value|
                 set_attributes += "a.setAttribute('#{name}', '#{value}');"
               end
-              create_link = "var script = document.getElementsByTagName('script');" +
-                            "script = script[script.length - 1];" +
+              script_id = rand(36**8).to_s(36)
+              create_link = "var script = document.getElementById('mail_to-#{script_id}');" +
                             "var a = document.createElement('a');" +
                             "#{set_attributes}" + 
                             "a.appendChild(document.createTextNode('#{name || email_address_obfuscated.html_safe}'));" +
@@ -89,7 +89,7 @@ module EncodedMailTo
               create_link.each_byte do |c|
                 string << sprintf("%%%x", c)
               end
-              "<script>eval(decodeURIComponent('#{string}'))</script>".html_safe
+              "<script id=\"mail_to-#{script_id}\">eval(decodeURIComponent('#{string}'))</script>".html_safe
             when "hex"
               email_address_encoded = email_address_obfuscated.unpack('C*').map {|c|
                 sprintf("&#%d;", c)
