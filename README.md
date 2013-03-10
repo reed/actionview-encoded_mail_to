@@ -43,7 +43,7 @@ Use the `mail_to` helper method just as you did prior to Rails 4.0.
 
 ```ruby
 mail_to "me@domain.com", "My email", encode: "javascript"
-# => <script>eval(decodeURIComponent('%64%6f%63...%27%29%3b'))</script>
+# => <script id="mail_to-sz6xohiu">eval(decodeURIComponent('%64%6f%63...%27%29%3b'))</script>
 
 mail_to "me@domain.com", "My email", encode: "hex"
 # => <a href="mailto:%6d%65@%64%6f%6d%61%69%6e.%63%6f%6d">My email</a>
