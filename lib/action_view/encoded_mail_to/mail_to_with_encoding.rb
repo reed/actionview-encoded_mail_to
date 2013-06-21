@@ -46,19 +46,19 @@ module EncodedMailTo
         #   mail_to "me@domain.com", "My email", cc: "ccaddress@domain.com",
         #            subject: "This is an example email"
         #   # => <a href="mailto:me@domain.com?cc=ccaddress@domain.com&subject=This%20is%20an%20example%20email">My email</a>
-        def mail_to_with_encoding(email_address, name = nil, html_options = {})
+        def mail_to_with_encoding(email_address, name = nil, html_options = {}, &block)
           html_options.stringify_keys!
           if %w[encode replace_at replace_dot].none?{ |option| html_options.has_key? option }
-            mail_to_without_encoding email_address, name, html_options
+            mail_to_without_encoding email_address, name, html_options, &block
           else
-            _mail_to_with_encoding email_address, name, html_options
+            _mail_to_with_encoding email_address, name, html_options, &block
           end
         end
         alias_method_chain :mail_to, :encoding
         
         private
         
-          def _mail_to_with_encoding(email_address, name = nil, html_options = {})
+          def _mail_to_with_encoding(email_address, name = nil, html_options = {}, &block)
             email_address = ERB::Util.html_escape(email_address)
             
             encode = html_options.delete("encode").to_s
@@ -81,10 +81,16 @@ module EncodedMailTo
                 set_attributes += "a.setAttribute('#{name}', '#{value}');"
               end
               script_id = rand(36**8).to_s(36)
+              if block_given?
+                block_content = capture(&block).gsub('\'', %q(\\\')).gsub(/\n/, ' ')
+                link_content = "a.innerHTML='#{block_content}';"
+              else
+                link_content = "a.appendChild(document.createTextNode('#{name || email_address_obfuscated.html_safe}'));"
+              end
               create_link = "var script = document.getElementById('mail_to-#{script_id}');" +
                             "var a = document.createElement('a');" +
                             "#{set_attributes}" + 
-                            "a.appendChild(document.createTextNode('#{name || email_address_obfuscated.html_safe}'));" +
+                            link_content +
                             "script.parentNode.insertBefore(a,script);"
               create_link.each_byte do |c|
                 string << sprintf("%%%x", c)
@@ -102,9 +108,9 @@ module EncodedMailTo
                 char =~ /\w/ ? sprintf("%%%x", c) : char
               }.join
                     
-              content_tag "a", name || email_address_encoded.html_safe, html_options.merge("href" => "#{string}#{extras}".html_safe)
+              content_tag "a", name || email_address_encoded.html_safe, html_options.merge("href" => "#{string}#{extras}".html_safe), &block
             else
-              content_tag "a", name || email_address_obfuscated.html_safe, html_options.merge("href" => "mailto:#{email_address}#{extras}".html_safe)
+              content_tag "a", name || email_address_obfuscated.html_safe, html_options.merge("href" => "mailto:#{email_address}#{extras}".html_safe), &block
             end
           end
       end
