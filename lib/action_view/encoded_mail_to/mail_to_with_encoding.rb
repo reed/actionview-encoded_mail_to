@@ -47,7 +47,7 @@ module EncodedMailTo
         #            subject: "This is an example email"
         #   # => <a href="mailto:me@domain.com?cc=ccaddress@domain.com&subject=This%20is%20an%20example%20email">My email</a>
         def mail_to_with_encoding(email_address, name = nil, html_options = {}, &block)
-          html_options, name = name, nil if block_given? && html_options.blank?
+          html_options, name = name || {}, nil if block_given? && html_options.blank?
           html_options.stringify_keys!
           if %w[encode replace_at replace_dot].none?{ |option| html_options.has_key? option }
             mail_to_without_encoding email_address, name, html_options, &block
