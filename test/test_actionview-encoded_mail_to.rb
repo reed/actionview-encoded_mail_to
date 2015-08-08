@@ -29,6 +29,10 @@ class TestActionViewEncodedMailTo < MiniTest::Test
                  mail_to("nick@example.com", "Nick Reed", class: "admin")
   end
 
+  def test_mail_to_with_block
+    assert_equal(%{<a href="mailto:nick@example.com">Nick</a>}, mail_to("nick@example.com"){'Nick'})
+  end
+
   def test_mail_to_without_encoding
     assert_equal mail_to("nick@example.com", "Nick Reed"),
                  mail_to_without_encoding("nick@example.com", "Nick Reed")
