@@ -9,7 +9,7 @@ require 'action_view/helpers/url_helper'
 require 'action_view/encoded_mail_to/mail_to_with_encoding'
 require 'action_view/buffers'
 
-class TestActionViewEncodedMailTo < MiniTest::Test
+class TestActionViewEncodedMailTo < MiniTest::Unit::TestCase
   include ActionView::Helpers::UrlHelper
 
   attr_accessor :output_buffer
