@@ -3,7 +3,7 @@
 
 Deprecated support for email address obfuscation within the **mail_to** helper method.  Restores the options `:encode`, `:replace_at`,  and `:replace_dot`, which were removed from Rails in version 4.0.  
 
-Any call to **mail_to** that _doesn't_ include any of these options will be passed through to the core **mail_to** helper (in [ActionView::Helpers::UrlHelper](https://github.com/rails/rails/blob/master/actionpack/lib/action_view/helpers/url_helper.rb)).
+Any call to **mail_to** that _doesn't_ include any of these options will be passed through to the core **mail_to** helper (in [ActionView::Helpers::UrlHelper](https://github.com/rails/rails/blob/master/actionview/lib/action_view/helpers/url_helper.rb)).
 
 ## Installation
 
