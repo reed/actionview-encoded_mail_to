@@ -9,16 +9,10 @@ require 'action_view/helpers/url_helper'
 require 'action_view/encoded_mail_to/mail_to_with_encoding'
 require 'action_view/buffers'
 
-class TestActionViewEncodedMailTo < MiniTest::Test
+class TestActionViewEncodedMailTo < MiniTest::Unit::TestCase
   include ActionView::Helpers::UrlHelper
 
   attr_accessor :output_buffer
-
-  def test_initialization
-    [:mail_to, :mail_to_with_encoding, :mail_to_without_encoding].each do |method|
-      assert_includes ActionView::Helpers::UrlHelper.instance_methods, method
-    end
-  end
 
   def test_mail_to
     assert_equal %{<a href="mailto:nick@example.com">nick@example.com</a>}, mail_to("nick@example.com")
@@ -35,7 +29,7 @@ class TestActionViewEncodedMailTo < MiniTest::Test
 
   def test_mail_to_without_encoding
     assert_equal mail_to("nick@example.com", "Nick Reed"),
-                 mail_to_without_encoding("nick@example.com", "Nick Reed")
+                 "<a href=\"mailto:nick@example.com\">Nick Reed</a>"
   end
 
   def test_mail_to_with_javascript
