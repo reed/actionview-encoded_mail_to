@@ -75,8 +75,8 @@ module ActionView
           when "javascript"
             string = ''
             set_attributes = ''
-            html_options.merge("href" => "mailto:#{email_address}#{extras}".html_safe).each_pair do |name,value|
-              set_attributes += "a.setAttribute('#{name}', '#{value}');"
+            html_options.merge("href" => "mailto:#{email_address}#{extras}".html_safe).each_pair do |inner_name,value|
+              set_attributes += "a.setAttribute('#{inner_name}', '#{value}');"
             end
             script_id = rand(36**8).to_s(36)
             if block_given?
