@@ -115,4 +115,4 @@ module ActionView
   end
 end
 
-ActionView::Helpers::UrlHelper.send :prepend, ActionView::EncodedMailTo::MailToWithEncoding
+ActionView::RoutingUrlFor.send :prepend, ActionView::EncodedMailTo::MailToWithEncoding

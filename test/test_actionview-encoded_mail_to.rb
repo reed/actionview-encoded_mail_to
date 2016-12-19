@@ -3,11 +3,11 @@
 require 'minitest/autorun'
 require 'rails'
 require 'action_pack'
-require 'action_view/helpers/capture_helper'
-require 'action_view/helpers/output_safety_helper'
-require 'action_view/helpers/url_helper'
+require 'action_view'
 require 'action_view/encoded_mail_to/mail_to_with_encoding'
-require 'action_view/buffers'
+ActionView::Helpers::UrlHelper.module_eval do
+  prepend ActionView::EncodedMailTo::MailToWithEncoding
+end
 
 class TestActionViewEncodedMailTo < MiniTest::Unit::TestCase
   include ActionView::Helpers::UrlHelper
