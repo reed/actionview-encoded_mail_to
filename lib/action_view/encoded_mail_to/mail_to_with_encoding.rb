@@ -114,5 +114,3 @@ module ActionView
     end
   end
 end
-
-ActionView::RoutingUrlFor.send :prepend, ActionView::EncodedMailTo::MailToWithEncoding
