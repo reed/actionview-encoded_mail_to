@@ -59,7 +59,7 @@ module ActionView
         def _mail_to_with_encoding(email_address, name = nil, html_options = {}, &block)
           email_address = ERB::Util.html_escape(email_address)
 
-          encode = html_options.delete("encode").to_s
+          encode = html_options.delete(:encode).to_s
 
           extras = %w{ cc bcc body subject }.map { |item|
             option = html_options.delete(item) || next
