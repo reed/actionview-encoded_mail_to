@@ -63,7 +63,7 @@ module ActionView
 
           extras = %w{ cc bcc body subject reply_to }.map! { |item|
             option = html_options.delete(item).presence || next
-            "#{item.dasherize}=#{ERB::Util.url_encode(option)}"
+            "#{item.dasherize}=#{url_encode(option)}"
           }.compact
           extras = extras.empty? ? ''.freeze : '?' + extras.join('&')
 
@@ -109,6 +109,14 @@ module ActionView
             content_tag "a", name || email_address_encoded.html_safe, html_options.merge("href" => "#{string}#{extras}".html_safe), &block
           else
             content_tag "a", name || email_address_obfuscated.html_safe, html_options.merge("href" => "mailto:#{email_address}#{extras}".html_safe), &block
+          end
+        end
+
+        def url_encode(string)
+          if Gem::Version.new(RUBY_VERSION) > Gem::Version.new('2.0')
+            ERB::Util.url_encode(string)
+          else
+            Rack::Utils.escape_path(string)
           end
         end
     end
