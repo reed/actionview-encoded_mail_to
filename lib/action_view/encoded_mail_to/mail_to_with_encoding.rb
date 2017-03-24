@@ -61,11 +61,11 @@ module ActionView
 
           encode = html_options.delete("encode").to_s
 
-          extras = %w{ cc bcc body subject }.map { |item|
-            option = html_options.delete(item) || next
-            ERB::Util.html_escape "#{item}=#{Rack::Utils.escape_path(option)}"
+          extras = %w{ cc bcc body subject reply_to }.map! { |item|
+            option = html_options.delete(item).presence || next
+            "#{item.dasherize}=#{ERB::Util.url_encode(option)}"
           }.compact
-          extras = extras.empty? ? '' : '?' + extras.join('&')
+          extras = extras.empty? ? ''.freeze : '?' + extras.join('&')
 
           email_address_obfuscated = email_address.to_str
           email_address_obfuscated.gsub!(/@/, html_options.delete("replace_at")) if html_options.key?("replace_at")
