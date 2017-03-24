@@ -153,4 +153,25 @@ class TestActionViewEncodedMailTo < MiniTest::Unit::TestCase
     assert mail_to("me@domain.com", "My email", encode: "hex").html_safe?
   end
 
+  def test_mail_to_with_html_safe_option_and_javascript
+    assert_match(
+      /<script id=\"mail_to-\S+\">eval\(decodeURIComponent\('%76%61%72%20%73%63%72%69%70%74%20%3d%20%64%6f%63%75%6d%65%6e%74%2e%67%65%74%45%6c%65%6d%65%6e%74%42%79%49%64%28%27%6d%61%69%6c%5f%74%6f%2d\S+%75%74%65%28%27%68%72%65%66%27%2c%20%27%6d%61%69%6c%74%6f%3a%6d%65%40%65%78%61%6d%70%6c%65%2e%63%6f%6d%3f%73%75%62%6a%65%63%74%3d%54%68%69%73%25%32%30%69%73%25%32%30%61%6e%25%32%30%65%78%61%6d%70%6c%65%25%32%30%65%6d%61%69%6c%27%29%3b%61%2e%61%70%70%65%6e%64%43%68%69%6c%64%28%64%6f%63%75%6d%65%6e%74%2e%63%72%65%61%74%65%54%65%78%74%4e%6f%64%65%28%27%4d%79%20%65%6d%61%69%6c%27%29%29%3b%73%63%72%69%70%74%2e%70%61%72%65%6e%74%4e%6f%64%65%2e%69%6e%73%65%72%74%42%65%66%6f%72%65%28%61%2c%73%63%72%69%70%74%29%3b'\)\)<\/script>/,
+      mail_to("me@example.com", "My email", subject: "This is an example email".html_safe, encode: "javascript")
+    )
+  end
+
+  def test_mail_to_with_html_safe_option_and_hex
+    assert_equal(
+      %{<a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;%6d%65@%64%6f%6d%61%69%6e.%63%6f%6d?subject=This%20is%20an%20example%20email">My email</a>},
+      mail_to("me@domain.com", "My email", subject: "This is an example email".html_safe, encode: "hex")
+    )
+  end
+
+  def test_mail_to_with_html_safe_and_replace_options
+    assert_equal(
+      %{<a href="mailto:me@domain.com?subject=This%20is%20an%20example%20email">me(at)domain(dot)com</a>},
+      mail_to("me@domain.com", nil, subject: "This is an example email".html_safe, replace_at: "(at)", replace_dot: "(dot)")
+    )
+  end
+
 end

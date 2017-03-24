@@ -61,11 +61,11 @@ module ActionView
 
           encode = html_options.delete("encode").to_s
 
-          extras = %w{ cc bcc body subject }.map { |item|
-            option = html_options.delete(item) || next
-            ERB::Util.html_escape "#{item}=#{Rack::Utils.escape_path(option)}"
+          extras = %w{ cc bcc body subject reply_to }.map! { |item|
+            option = html_options.delete(item).presence || next
+            "#{item.dasherize}=#{url_encode(option)}"
           }.compact
-          extras = extras.empty? ? '' : '?' + extras.join('&')
+          extras = extras.empty? ? ''.freeze : '?' + extras.join('&')
 
           email_address_obfuscated = email_address.to_str
           email_address_obfuscated.gsub!(/@/, html_options.delete("replace_at")) if html_options.key?("replace_at")
@@ -109,6 +109,14 @@ module ActionView
             content_tag "a", name || email_address_encoded.html_safe, html_options.merge("href" => "#{string}#{extras}".html_safe), &block
           else
             content_tag "a", name || email_address_obfuscated.html_safe, html_options.merge("href" => "mailto:#{email_address}#{extras}".html_safe), &block
+          end
+        end
+
+        def url_encode(string)
+          if Gem::Version.new(RUBY_VERSION) > Gem::Version.new('2.0')
+            ERB::Util.url_encode(string)
+          else
+            Rack::Utils.escape_path(string)
           end
         end
     end
