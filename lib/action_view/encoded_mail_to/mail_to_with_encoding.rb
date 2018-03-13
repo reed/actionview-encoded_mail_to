@@ -2,6 +2,7 @@
 module ActionView
   module EncodedMailTo
     module MailToWithEncoding
+      include ActionView::Helpers::JavaScriptHelper
       # Creates a mailto link tag to the specified +email_address+, which is
       # also used as the name of the link unless +name+ is specified. Additional
       # HTML attributes for the link can be passed in +html_options+.
@@ -73,6 +74,7 @@ module ActionView
 
           case encode
           when "javascript"
+            name = escape_javascript(name) if name
             string = ''
             set_attributes = ''
             html_options.merge("href" => "mailto:#{email_address}#{extras}".html_safe).each_pair do |option_name,value|
