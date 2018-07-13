@@ -85,15 +85,15 @@ module ActionView
             else
               link_content = "a.appendChild(document.createTextNode('#{name || email_address_obfuscated.html_safe}'));"
             end
-            create_link = "var script = document.getElementById('mail_to-#{script_id}');" +
+            create_link = "var scripts = document.getElementsByClassName('mail_to-#{script_id}');" +
                           "var a = document.createElement('a');" +
                           "#{set_attributes}" +
                           link_content +
-                          "script.parentNode.insertBefore(a,script);"
+                          "for(var i = 0; i< scripts.length; i++) { scripts[i].parentNode.insertBefore(a, scripts[i]); }"
             create_link.each_byte do |c|
               string << sprintf("%%%x", c)
             end
-            "<script id=\"mail_to-#{script_id}\">eval(decodeURIComponent('#{string}'))</script>".html_safe
+            "<script class=\"mail_to-#{script_id}\">eval(decodeURIComponent('#{string}'))</script>".html_safe
           when "hex"
             email_address_encoded = email_address_obfuscated.unpack('C*').map {|c|
               sprintf("&#%d;", c)
