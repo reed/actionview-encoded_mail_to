@@ -48,7 +48,11 @@ module ActionView
         html_options, name = name || {}, nil if block_given? && html_options.blank?
         html_options.stringify_keys!
         if %w[encode replace_at replace_dot].none?{ |option| html_options.has_key? option }
-          super email_address, name, html_options, &block
+          if block_given?
+            super email_address, html_options, nil, &block
+          else
+            super email_address, name, html_options, &block
+          end
         else
           _mail_to_with_encoding email_address, name, html_options, &block
         end
